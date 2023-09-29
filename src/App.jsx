@@ -25,7 +25,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
+        <Route path="/Chating-App/">
           <Route
             index
             element={
@@ -34,8 +34,8 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} /> {/* Corrected path case */}
+          <Route path="/Chating-App/login" element={<Login />} />
+          <Route path="/Chating-App/register" element={<Register />} /> {/* Corrected path case */}
         </Route>
       </Routes>
     </BrowserRouter>
