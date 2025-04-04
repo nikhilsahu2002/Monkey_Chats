@@ -5,7 +5,7 @@ import { ChatContext } from '../Context/ChatContext';
 import { Timestamp, arrayUnion, doc, serverTimestamp, updateDoc, getDoc, setDoc } from 'firebase/firestore'; // Import getDoc and setDoc
 import { v4 as uuid } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { db, storage } from '../firebase';
+import { db, storage } from '../../firebase';
 
 export default function Input() {
   const [text, setText] = useState('');

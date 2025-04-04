@@ -2,12 +2,7 @@ import { Home } from "../src/Pages/Home";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login"; // Corrected the import
 import "./style.css";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./Context/AuthContext";
 
@@ -35,7 +30,8 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> {/* Corrected path case */}
+          <Route path="/register" element={<Register />} />{" "}
+          {/* Corrected path case */}
         </Route>
       </Routes>
     </BrowserRouter>
