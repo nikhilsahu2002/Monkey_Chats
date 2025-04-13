@@ -3,6 +3,7 @@ import { useContext, useEffect, useRef } from 'react'; // Import React dependenc
 import { AuthContext } from '../Context/AuthContext';
 import { ChatContext } from '../Context/ChatContext';
 import { format } from 'date-fns'; // Import date-fns library for date formatting
+import pngegg from '../assets/image/pngegg.png'
 
 export default function Messages({ message }) {
   const { currentUser } = useContext(AuthContext);
@@ -24,7 +25,15 @@ export default function Messages({ message }) {
   return (
     <div ref={ref} className={`message ${message.senderId === currentUser.uid && "owner"}`}>
       <div className="messageInfo">
-        <img src={message.senderId === currentUser.uid ? currentUser.photoURL : userPhotoURL} alt="" />
+        <img
+          src={message.senderId === currentUser.uid ? currentUser.photoURL : userPhotoURL}
+          alt="User"
+          onError={(e) => {
+            e.target.onerror = null; // prevents looping
+            e.target.src = pngegg ; // replace with your static image path
+          }}
+        />
+
         <span>{formattedDate}</span> {/* Render the formatted date */}
       </div>
       <div className="messageContent">

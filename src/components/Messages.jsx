@@ -21,9 +21,9 @@ export const Messages = () => {
   console.log(Messages)
   return ( 
     <div className='messages'>
-        {Messages.map(m=>(
-        <Message message ={m} key={m.id} />
-        ))} 
+      {Messages?.length > 0 && Messages.map(m => (
+        <Message message={m} key={m.id} />
+      ))} 
     </div>
   )
 }

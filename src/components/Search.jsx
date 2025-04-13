@@ -18,15 +18,27 @@ export const Search = () => {
         return;
       }
 
-      const q = query(collection(db, "users"), where("displayName", "==", userName));
       try {
+        const q = query(collection(db, "users"));
         const querySnapshot = await getDocs(q);
+
+        let foundUser = null;
         querySnapshot.forEach((doc) => {
-          setUser(doc.data());
+          const userData = doc.data();
+          if (userData.displayName.toLowerCase().includes(userName.toLowerCase())) {
+            foundUser = userData; // If a similar name is found, set it
+          }
         });
-        setErr(null);
+
+        if (foundUser) {
+          setUser(foundUser);
+          setErr(null);
+        } else {
+          setErr("No User found");
+          setUser(null);
+        }
       } catch (error) {
-        setErr("No User");
+        setErr("Error fetching user");
         setUser(null);
       }
     };

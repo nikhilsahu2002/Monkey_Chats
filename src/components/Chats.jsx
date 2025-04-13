@@ -3,6 +3,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext";
 import { ChatContext } from "../Context/ChatContext";
+import defaultAvatar  from '../assets/image/pngegg.png'
 
 export default function Chats() {
   const [chats, setChats] = useState([]);
@@ -38,8 +39,12 @@ export default function Chats() {
               <div className="img1">
                 <img
                   style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                  src={chat[1].userInfo.photoURL || 'default-avatar-url'} // Use a default URL or handle missing photoURL
-                  alt=""
+                  src={chat[1].userInfo.photoURL || defaultAvatar}
+                  alt="User Avatar"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = defaultAvatar;
+                  }}
                 />
               </div>
               <div className="userchatinfo">

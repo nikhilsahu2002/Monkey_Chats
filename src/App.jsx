@@ -5,6 +5,8 @@ import "./style.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./Context/AuthContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -17,7 +19,7 @@ function App() {
     return children;
   };
 
-  return (
+  return (<>
     <BrowserRouter>
       <Routes>
         <Route path="/">
@@ -35,6 +37,8 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+      <ToastContainer position="top-right" autoClose={3000} />
+  </>
   );
 }
 

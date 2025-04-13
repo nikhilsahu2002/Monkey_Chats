@@ -4,7 +4,8 @@ import Add from '../assets/image/gallery.png';
 import { auth, storage, db } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [err, setError] = useState(false);
@@ -12,52 +13,70 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
     const file = e.target[3].files[0];
 
+    // Check if all required fields are provided
+    if (!displayName || !email || !password) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    // Check if password length is greater than 6 characters
+    if (password.length < 6) {
+      alert("Password should be at least 6 characters long.");
+      return;
+    }
+
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Upload the avatar photo
-      const storageRef = ref(storage, displayName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      // If avatar is provided, upload it
+      let downloadURL = null;
+      if (file) {
+        const storageRef = ref(storage, displayName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          // Handle upload progress if needed
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-        },
-        (error) => {
-          // Handle unsuccessful uploads
-          setError(true);
-          console.error('Upload error:', error.message);
-        },
-        async () => {
-          // Get the download URL of the uploaded photo
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            // Handle upload progress if needed
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+            setError(true);
+            console.error('Upload error:', error.message);
+          },
+          async () => {
+            // Get the download URL of the uploaded photo
+            downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          }
+        );
+      }
 
-          // Update the user's profile with the display name and photo URL
-          await updateProfile(res.user, {
-            displayName,
-            photoURL: downloadURL,
-          });
+      // Update the user's profile with the display name and photo URL (if available)
+      await updateProfile(res.user, {
+        displayName,
+        photoURL: downloadURL || "", // Set empty string if no avatar is provided
+      });
 
-          // Create a user document in Firestore (you need to import 'db' for this to work)
-          await setDoc(doc(db, "users", res.user.uid), {
-            uid: res.user.uid,
-            displayName,
-            email,
-            photoURL: downloadURL,
-          });
+      // Create a user document in Firestore
+      await setDoc(doc(db, "users", res.user.uid), {
+        uid: res.user.uid,
+        displayName,
+        email,
+        photoURL: downloadURL || "", // Use empty string if no avatar
+      });
 
-          // Redirect to another page on successful registration (you can use React Router for this)
-          navigate("/"); // Move this line here
+      // Redirect to another page on successful registration
+      toast.success("Login successful!");
+      navigate("/");
 
-        }
-      );
     } catch (error) {
       setError(true);
       console.error('Registration error:', error.message);

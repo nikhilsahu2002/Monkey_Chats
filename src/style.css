@@ -282,3 +282,17 @@ button{
   padding: 10px 20px;
   border-radius: 0px 10px 10px 10px;
 }
+.password-container {
+  position: relative;
+}
+
+.show-password-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  color: #888;
+}
