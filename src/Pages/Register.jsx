@@ -1,7 +1,7 @@
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import React, { useState } from 'react';
 import Add from '../assets/image/gallery.png';
-import { auth, storage, db } from '../../firebase';
+import { auth, storage, db } from '../firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom'
