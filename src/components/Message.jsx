@@ -38,7 +38,10 @@ export default function Messages({ message }) {
       </div>
       <div className="messageContent">
         <p>{message.text}</p>
-        {message.img && <img src={message.img} style={{height:"100px", width:"100px"}} alt="" />}
+        {message.img && <img src={message.img} style={{ height: "100px", width: "100px" }} alt="" onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = pngegg;
+        }} />}
       </div>
     </div>
   );

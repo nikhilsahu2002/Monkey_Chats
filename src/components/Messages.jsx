@@ -18,7 +18,6 @@ export const Messages = () => {
     }
   },[data.chatId])
 
-  console.log(Messages)
   return ( 
     <div className='messages'>
       {Messages?.length > 0 && Messages.map(m => (

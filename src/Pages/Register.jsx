@@ -45,7 +45,6 @@ const Register = () => {
           (snapshot) => {
             // Handle upload progress if needed
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
           },
           (error) => {
             // Handle unsuccessful uploads

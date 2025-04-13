@@ -43,7 +43,6 @@ export default function Input() {
       uploadTask.on('state_changed', (snapshot) => {
         // Handle upload progress if needed
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
       }, handleError, () => handleUploadComplete(uploadTask.snapshot));
     } else {
       // Check if the document exists, and create it if it doesn't
